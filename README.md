@@ -6,5 +6,9 @@ At the time of downloading the dataset, only reviews from July, 6, 2023 to July 
 
 The findings show both what were a given as well as some mildly amusing results.
 
+Tools used:
+SQL - for cleaning and data analyzation
+Tableau - for data visualization
+
 The dataset is available on Kaggle: https://www.kaggle.com/datasets/saloni1712/threads-an-instagram-app-reviews
 
