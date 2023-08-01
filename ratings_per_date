@@ -1,0 +1,23 @@
+# Let's see what dates had the most to least reviews as well as the average rating per date 
+# and the number of each rating (from a scale of 1-5) per date plus the percentage of each rating for that day
+
+SELECT
+  FORMAT_DATE('%m/%d/%Y', Date) AS Formatted_Date,
+  COUNT(*) AS rating_count,
+  AVG(Rating) AS average_rating,
+  SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END) AS count_1_star_ratings,
+  SUM(CASE WHEN rating = 2 THEN 1 ELSE 0 END) AS count_2_star_ratings,
+  SUM(CASE WHEN rating = 3 THEN 1 ELSE 0 END) AS count_3_star_ratings,
+  SUM(CASE WHEN rating = 4 THEN 1 ELSE 0 END) AS count_4_star_ratings,
+  SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END) AS count_5_star_ratings,
+  ROUND(100 * SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_1_star_ratings,
+  ROUND(100 * SUM(CASE WHEN rating = 2 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_2_star_ratings,
+  ROUND(100 * SUM(CASE WHEN rating = 3 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_3_star_ratings,
+  ROUND(100 * SUM(CASE WHEN rating = 4 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_4_star_ratings,
+  ROUND(100 * SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_5_star_ratings
+FROM
+  `threads-sentiment.threads_sentiment.threads-reviews`
+GROUP BY
+  Formatted_Date
+ORDER BY
+  rating_count DESC;
