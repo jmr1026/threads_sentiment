@@ -1,4 +1,4 @@
-# Threds App Sentiment
+# Threads App Sentiment
 
 With what's currently going on with Twitter and Meta launching its own version of it, Threads, I thought it would be interesting to see the publics overall sentiment of the new app. The reviews are coming from both the App store & Google Play
 
