@@ -1,0 +1,30 @@
+# Let's see what were the top 10 most common words used across the reviews and what rating, average rating,
+# percent of rating, each of those words came from
+
+SELECT
+  word,
+  COUNT(*) AS word_count,
+  SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END) AS count_1_star_ratings,
+  SUM(CASE WHEN rating = 2 THEN 1 ELSE 0 END) AS count_2_star_ratings,
+  SUM(CASE WHEN rating = 3 THEN 1 ELSE 0 END) AS count_3_star_ratings,
+  SUM(CASE WHEN rating = 4 THEN 1 ELSE 0 END) AS count_4_star_ratings,
+  SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END) AS count_5_star_ratings,
+  ROUND(SUM(rating) / COUNT(*), 2) AS average_rating,
+  ROUND(100 * SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_1_star,
+  ROUND(100 * SUM(CASE WHEN rating = 2 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_2_star,
+  ROUND(100 * SUM(CASE WHEN rating = 3 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_3_star,
+  ROUND(100 * SUM(CASE WHEN rating = 4 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_4_star,
+  ROUND(100 * SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END) / COUNT(*), 2) AS percentage_5_star
+FROM (
+  SELECT
+    SPLIT(REGEXP_REPLACE(Review_description, r'[[:punct:]]', '')) AS word_list,
+    rating
+  FROM
+    `threads-sentiment.threads_sentiment.threads-reviews`
+), UNNEST(word_list) AS word
+GROUP BY
+  word
+ORDER BY
+  word_count DESC
+LIMIT
+  10;
