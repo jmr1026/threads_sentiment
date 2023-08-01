@@ -1,0 +1,15 @@
+
+# Let's see the amount of each star rating as well as the percentage of each rating in totality
+SELECT
+  rating,
+  COUNT(*) AS count_ratings,
+  ROUND(100 * COUNT(*) / total_ratings.total_count, 2) AS percentage
+FROM
+  `threads-sentiment.threads_sentiment.threads-reviews`,
+  (SELECT COUNT(*) AS total_count
+  FROM `threads-sentiment.threads_sentiment.threads-reviews`
+  ) total_ratings
+GROUP BY
+  Rating, total_ratings.total_count
+ORDER BY
+  count_ratings DESC;
