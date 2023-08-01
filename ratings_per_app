@@ -1,0 +1,21 @@
+
+# Let's see what percentage of each rating came from either 
+# the Apple store and the Google Play Store
+
+SELECT
+  Source,
+  rating,
+  COUNT(*) AS count_ratings,
+  ROUND(100 * COUNT(*) / total_ratings.total_count, 2) AS percentage
+FROM
+  `threads-sentiment.threads_sentiment.threads-reviews`
+CROSS JOIN (
+  SELECT COUNT(*) AS total_count
+  FROM `threads-sentiment.threads_sentiment.threads-reviews`
+) total_ratings
+WHERE
+  Source IN ('Google Play', 'App Store')
+GROUP BY
+  Source, rating, total_ratings.total_count
+ORDER BY
+  Source, rating DESC;
